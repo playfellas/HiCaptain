@@ -10,31 +10,33 @@ import it.playfellas.hicaptain.R;
  */
 public class Baraldi {
     private static MediaPlayer player = null;
+    private static Runnable cb = null;
 
-    private static MediaPlayer getPlayer(Context ctxt, int soundID) {
-        shutUp();
+    private static MediaPlayer getPlayer(Context ctxt, int soundID, final Runnable onComplete) {
+        shutUp(false);
         player = MediaPlayer.create(ctxt, soundID);
-        return player;
-    }
-
-    private static MediaPlayer setListener(MediaPlayer p, final Runnable onComplete) {
         if (onComplete != null) {
-            p.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            cb = onComplete;
+            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     onComplete.run();
                 }
             });
         }
-        return p;
+        return player;
     }
 
-    public static void shutUp() {
+    public static void shutUp(boolean runCBs) {
         if (player != null) {
             player.stop();
             player.release();
+            if (runCBs && cb != null) {
+                cb.run();
+            }
         }
         player = null;
+        cb = null;
     }
 
     /**
@@ -42,14 +44,14 @@ public class Baraldi {
      * @param onComplete can be `null` if no callback is required
      */
     public static void welcome(Context ctxt, final Runnable onComplete) {
-        setListener(getPlayer(ctxt, R.raw.welcome), onComplete).start();
+        getPlayer(ctxt, R.raw.welcome, onComplete).start();
     }
 
     public static void askHelp(Context ctxt, final Runnable onComplete) {
-        setListener(getPlayer(ctxt, R.raw.help), onComplete).start();
+        getPlayer(ctxt, R.raw.help, onComplete).start();
     }
 
     public static void greet(Context ctxt, final Runnable onComplete) {
-        setListener(getPlayer(ctxt, R.raw.greetings), onComplete).start();
+        getPlayer(ctxt, R.raw.greetings, onComplete).start();
     }
 }
