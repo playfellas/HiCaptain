@@ -24,9 +24,8 @@ public class MainActivity extends ImmersiveAppCompatActivity {
     @Bind(R.id.skipSoundButton)
     Button skipSoundButton;
 
-    private boolean captainEnabled = true;
-    private boolean pruaEnabled = false;
-    private int easterEgg = 0;
+    private boolean captainEnabled;
+    private boolean pruaEnabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +33,17 @@ public class MainActivity extends ImmersiveAppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
+
+        this.captainEnabled = true;
+        this.pruaEnabled = false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        this.captainEnabled = true;
+        this.pruaEnabled = false;
     }
 
     @Override
@@ -49,7 +59,6 @@ public class MainActivity extends ImmersiveAppCompatActivity {
             this.captainEnabled = false;
             this.startCaptainSound();
         }
-        easterEgg--;
     }
 
     @OnClick(R.id.pruaImageView)
@@ -59,7 +68,6 @@ public class MainActivity extends ImmersiveAppCompatActivity {
             this.startPruaSound();
             this.pruaEnabled = false;
         }
-        easterEgg++;
     }
 
     private void startCaptainSound() {

@@ -2,7 +2,6 @@ package it.playfellas.hicaptain;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -19,12 +18,21 @@ public class FinalActivity extends AppCompatActivity {
     @Bind(R.id.skipSoundButton)
     Button skipSoundButton;
 
+    private boolean greetingsEnabled;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        this.greetingsEnabled = true;
     }
 
     @Override
@@ -36,12 +44,15 @@ public class FinalActivity extends AppCompatActivity {
 
     @OnClick(R.id.captainImageView)
     public void onClick(View v) {
-        Baraldi.greet(this, new Runnable() {
-            @Override
-            public void run() {
-                //finished
-            }
-        });
+        if (greetingsEnabled) {
+            Baraldi.greet(this, new Runnable() {
+                @Override
+                public void run() {
+                    greetingsEnabled = true;
+                }
+            });
+        }
+        greetingsEnabled = false;
     }
 
     @OnClick(R.id.skipSoundButton)
