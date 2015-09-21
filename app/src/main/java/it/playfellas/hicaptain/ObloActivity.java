@@ -18,7 +18,7 @@ package it.playfellas.hicaptain;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,23 +29,8 @@ import butterknife.OnClick;
  */
 public class ObloActivity extends ImmersiveAppCompatActivity {
 
-    @Bind(R.id.chefButton)
-    ImageButton chefButton;
-
-    @Bind(R.id.incastri1Button)
-    ImageButton incastri1Button;
-
-    @Bind(R.id.incastri2Button)
-    ImageButton incastri2Button;
-
-    @Bind(R.id.intruso1Button)
-    ImageButton intruso1Button;
-
-    @Bind(R.id.intruso2Button)
-    ImageButton intruso2Button;
-
-    @Bind(R.id.superappButton)
-    ImageButton superappButton;
+    @Bind(R.id.obloLayout)
+    RelativeLayout obloLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +46,10 @@ public class ObloActivity extends ImmersiveAppCompatActivity {
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.chefButton, R.id.incastri1Button, R.id.incastri2Button, R.id.intruso1Button, R.id.intruso2Button, R.id.superappButton})
-    public void onClick(View v) {
+    @OnClick(R.id.obloLayout)
+    public void click(View v) {
         startActivity(new Intent(this, FinalActivity.class));
     }
+
+
 }
